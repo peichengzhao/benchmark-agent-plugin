@@ -1,0 +1,21 @@
+{
+  "name": "benchmark-agent",
+  "description": "模型评测插件：数据集、模型配置和实验都留在使用者自己的评测服务里。",
+  "owner": {
+    "name": "peichengzhao"
+  },
+  "plugins": [
+    {
+      "name": "benchmark-agent",
+      "description": "通过本机评测服务运行模型评测。",
+      "author": { "name": "peichengzhao" },
+      "category": "productivity",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/peichengzhao/benchmark-agent-plugin.git",
+        "path": "claude-code",
+        "ref": "main"
+      }
+    }
+  ]
+}

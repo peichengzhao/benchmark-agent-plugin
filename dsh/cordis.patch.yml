@@ -1,0 +1,3 @@
+- insert:
+    - id: benchmark
+      name: './src/index.js'

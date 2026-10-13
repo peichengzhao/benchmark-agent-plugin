@@ -1,0 +1,10 @@
+{
+  "name": "benchmark-agent",
+  "displayName": "模型评测",
+  "version": "0.1.0",
+  "description": "让 Agent 通过本机评测服务查看数据集、登记模型并运行实验。",
+  "license": "MIT",
+  "keywords": ["benchmark", "evaluation", "models"],
+  "commands": "./commands/",
+  "skills": "./skills/"
+}
