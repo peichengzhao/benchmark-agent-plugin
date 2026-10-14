@@ -32,11 +32,16 @@ function run(config, args) {
   });
 }
 
+const TEXT_OUTPUT = {
+  schema: { type: "string" },
+  render: (_args, value) => [{ type: "text", text: String(value ?? "") }],
+};
+
 const tools = [
-  ["benchmark_health", "检查本机评测服务是否在运行。", [], ["health"]],
-  ["benchmark_list_models", "列出已保存的模型配置，不返回 API Key。", [], ["models"]],
-  ["benchmark_list_datasets", "列出已导入的数据集。", [], ["datasets"]],
-  ["benchmark_list_experiments", "列出实验和分数摘要。", [], ["experiments"]],
+  ["benchmark_health", "检查本机评测服务是否在运行。", {}, ["health"]],
+  ["benchmark_list_models", "列出已保存的模型配置，不返回 API Key。", {}, ["models"]],
+  ["benchmark_list_datasets", "列出已导入的数据集。", {}, ["datasets"]],
+  ["benchmark_list_experiments", "列出实验和分数摘要。", {}, ["experiments"]],
 ];
 
 export function apply(ctx, config) {
@@ -45,6 +50,7 @@ export function apply(ctx, config) {
       name,
       description,
       parameters,
+      output: TEXT_OUTPUT,
       async execute() {
         return run(config, args);
       },
@@ -54,6 +60,7 @@ export function apply(ctx, config) {
     name: "benchmark_get_experiment",
     description: "查看一个实验的状态、分数和少量失败题编号。",
     parameters: { experimentId: { type: "number", description: "实验 ID" } },
+    output: TEXT_OUTPUT,
     async execute(args) {
       return run(config, ["experiment", String(args.experimentId)]);
     },
@@ -68,6 +75,7 @@ export function apply(ctx, config) {
       limit: { type: "number", description: "只跑前 N 题，可省略" },
       judgeId: { type: "number", description: "HLE Judge 配置 ID" },
     },
+    output: TEXT_OUTPUT,
     async execute(args) {
       const argv = ["create-experiment", "--name", args.name, "--model-id", String(args.modelId), "--dataset-id", String(args.datasetId)];
       if (args.limit) argv.push("--limit", String(args.limit));
@@ -79,6 +87,7 @@ export function apply(ctx, config) {
     name: "benchmark_start_experiment",
     description: "开始运行实验。会调用模型并产生费用，先向用户确认。",
     parameters: { experimentId: { type: "number", description: "实验 ID" } },
+    output: TEXT_OUTPUT,
     async execute(args) {
       return run(config, ["start-experiment", String(args.experimentId)]);
     },
