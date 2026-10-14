@@ -11,6 +11,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from core.client import BenchmarkError  # noqa: E402
 from core import client  # noqa: E402
 
+# Host plugins read our stdout as UTF-8. On a Windows console whose default
+# codec is GBK the redaction bullet (U+2022) cannot be encoded at all, and
+# Chinese names would reach the host as mojibake, so pin UTF-8 explicitly.
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, "reconfigure"):
+        _stream.reconfigure(encoding="utf-8")
+
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Call a local benchmark service")

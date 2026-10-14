@@ -32,6 +32,8 @@ function run(config, args) {
   });
 }
 
+// Every tool hands the CLI's stdout back as plain text. An explicit `output`
+// declaration is required since dsh-tools 0.2.0-rc.2.
 const TEXT_OUTPUT = {
   schema: { type: "string" },
   render: (_args, value) => [{ type: "text", text: String(value ?? "") }],
